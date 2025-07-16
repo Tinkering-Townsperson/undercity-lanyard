@@ -1,29 +1,70 @@
-# Undercity eink lanyard
+# Undercity eink lanyard WITH GUI
 
-## How to flash it
+Ok before we go ahead, I just want to credit [@vracton](https://github.com/vracton/undercity-lanyard), [@JeffreyWangDev](https://github.com/JeffreyWangDev/undercity-lanyard), [@phthallo](https://github.com/phthallo/undercity-lanyard), and especially [@espcaa](https://github.com/espcaa/undercity-lanyard) for creating most of the codebase. I only restructured some things and gave it a somewhat-janky-but-usable GUI.
 
-__Note : only works on macos :/__
+## Setup
 
-1. Clone the repo
-    ```bash
-    git clone
-    ```
-2. You need anaconda installed & arduino-cli. Install anaconda using this [link](https://www.anaconda.com/docs/getting-started/anaconda/install#macos-linux-installation)
-    ```bash
-    # arduino cli
-    brew install arduino-cli
+1. Install a venv
 
-    arduino-cli config add board_manager.additional_urls https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+```sh
+python -m venv .venv
+```
 
-    arduino-cli lib install "Adafruit NeoPixel"
-    ```
-3. Just run the script
-    ```bash
-    chmod +x upload.sh
-    ./upload.sh
-    ```
-4. Follow the instructions and yay!
+2. Activate the venv
 
-## Wooo
+Windows:
 
-<img width="547" height="720" alt="image" src="https://github.com/user-attachments/assets/4808eedb-61ba-4868-983b-0e15dcd37818" />
+```cmd
+.\.venv\Scripts\activate
+```
+
+Mac/Linux:
+
+```sh
+chmod +x ./.venv/bin/activate
+source ./.venv/bin/activate
+```
+
+3. Run
+
+```sh
+pip install .[gui]
+```
+
+## Usage (Console mode)
+
+1. In the venv, run
+
+```sh
+undercity_lanyard_console
+```
+
+2. Follow the instructions and answer the prompts
+3. **DONE!** ::
+
+## Usage (GUI mode)
+
+1. In the venv, run
+
+```sh
+undercity_lanyard_gui
+```
+
+![GUI with empty inputs](./assets/gui-1.png)
+
+2. Enter information in the entry boxes
+
+![GUI with filled-out inputs](./assets/gui-2.png)
+
+3. Click `Create!` and watch the preview update
+
+![GUI with preview](./assets/gui-3.png)
+
+4. Click `Flash!` and follow the message boxes.
+
+![GUI with prompt](./assets/gui-4.png)
+![GUI with success](./assets/gui-5.png)
+
+5. IT WORKS YAY :exploding_head:
+
+![Lanyard but working!!!](./assets/lanyard%20working.jpg)
