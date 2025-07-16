@@ -1,6 +1,7 @@
 __version__ = "1.1.0"
 import os
 import shutil
+from typing import Optional
 from PIL import Image, ImageFont, ImageDraw
 from .bmp_to_array import image_to_c_array
 import subprocess
@@ -46,11 +47,11 @@ def init():
 	print("Welcome to undercity hopefully fixed lanyard upload script (x2)")
 
 
-def create_badge(name, slack_handle, extra, img):  # noqa
+def create_badge(name: str, slack_handle: str, extra: Optional[str] = None, img: Optional[os.PathLike] = None):  # noqa
 	if img:
 		try:
 			img = Image.open("img.png")
-			img = img.resize((300, 300), Image.LANCZOS)
+			img = img.resize((60, 60), Image.LANCZOS)
 			img.save("img_resized.png")
 		except Exception as e:
 			print(f"Error processing image: {e}")
@@ -87,7 +88,7 @@ def create_badge(name, slack_handle, extra, img):  # noqa
 
 		draw.text((20, 40), f"@{slack_handle}", font=main_font, fill="black")
 
-		draw.text((extra_text_x, 30), extra, font=bank_font, fill="black")
+		draw.text((extra_text_x, 20), extra, font=bank_font, fill="black")
 
 		badge.save("newbadge.bmp")
 		print("Badge created successfully!")
@@ -108,37 +109,19 @@ def create_badge(name, slack_handle, extra, img):  # noqa
 	image_to_c_array("newbadge.bmp", "f.h", "gImage_img")
 
 
-def flash_badge():
+def flash_badge(
+	wait_callback: callable = (lambda *a, **k: (
+			input("Press Enter to AFTER you pressed the boot button on the board.") + "y")[0] == 'y'),
+	cancel_callback: callable = (lambda *a, **k: print("Badge flashing cancelled.")),
+	complete_callback: callable = (lambda *a, **k: print("Badge flashed successfully!")),
+):
 	image_to_c_array("newbadge.bmp", "f.h", "gImage_img")
 	subprocess.run("arduino-cli compile --fqbn rp2040:rp2040:generic_rp2350 --output-dir ./build", shell=True)
 
-	input("Press Enter to AFTER you pressed the boot button on the board")
+	if not wait_callback():
+		cancel_callback()
+		return
 
-	if os.name == 'nt':
-		shutil.copy("build/undercity-lanyard.ino.uf2", "D:/")
-	else:
-		shutil.copy("build/undercity-lanyard.ino.uf2", "/Volumes/RP2350/")
+	shutil.copy("build/undercity-lanyard.ino.uf2", "D:/" if os.name == 'nt' else "/Volumes/RP2350/")
 
-
-# try:
-#     os.remove("img.png")
-# except FileNotFoundError:
-#     pass
-# try:
-#     os.remove("img_resized.png")
-
-# except FileNotFoundError:
-#     pass
-
-# try:
-#     os.remove("newbadge.bmp")
-# except FileNotFoundError:
-#     pass
-
-# try:
-#     os.remove("f.h")
-# except FileNotFoundError:
-#     pass
-
-# for f in os.listdir("./build"):
-#     os.remove(os.path.join("./build", f))
+	complete_callback()

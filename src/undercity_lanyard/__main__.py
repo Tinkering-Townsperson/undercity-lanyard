@@ -3,7 +3,7 @@ import sys
 
 
 if __name__ == "__main__":
-	print(f"Undercity Lanyard Script {__version__}")
+	print(f"Undercity Lanyard Flasher v{__version__}")
 
 	try:
 		if len(sys.argv) > 1 and sys.argv[1] == "--gui":
