@@ -1,0 +1,97 @@
+##########
+# PYTHON #
+##########
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# logs
+pip-log.txt
+pip-delete-this-directory.txt
+*.log
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Logs
+*.log
+
+# Backups / Temporary files
+*.bak
+*.old**
+old_**
+*._temp**
+*.tmp**
+
+
+# Folders created when running pip install . or poetry install
+build/
+
+# Omit poetry.lock as it is not required.
+# Read https://python-poetry.org/docs/libraries/#lock-file for more information.
+poetry.lock
+
+###############
+# OS-SPECIFIC #
+###############
+
+# Linux
+*~
+
+# Created when files that are in use are deleted
+.fuse_hidden*
+.nfs*
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+.directory
+[Dd]esktop.ini
+
+# MacOS "Icon" filename must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+$RECYCLE.BIN/
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.Trash-*
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Files and folders potentially generated on file shares
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# iCloud generated files
+*.icloud
+
+# Dump file
+*.stackdump
+
+# Windows shortcuts
+*.lnk
