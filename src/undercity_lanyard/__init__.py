@@ -1,4 +1,4 @@
-__version__ = "v1.1.0"
+__version__ = "1.1.0"
 import os
 import shutil
 from PIL import Image, ImageFont, ImageDraw
