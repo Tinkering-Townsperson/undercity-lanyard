@@ -95,3 +95,12 @@ Temporary Items
 
 # Windows shortcuts
 *.lnk
+
+##################################
+# PROJECT-SPECIFIC WORKING FILES #
+##################################
+
+f.h
+newbadge.bmp
+img.png
+img_resized.png
