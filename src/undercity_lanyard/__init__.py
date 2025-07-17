@@ -122,6 +122,9 @@ def flash_badge(
 		cancel_callback()
 		return
 
-	shutil.copy("build/undercity-lanyard.ino.uf2", "D:/" if os.name == 'nt' else "/Volumes/RP2350/")
+	shutil.copy(
+		f"build/{os.path.basename(os.path.abspath('.'))}.ino.uf2",
+		"D:/" if os.name == 'nt' else "/Volumes/RP2350/"
+		)
 
 	complete_callback()
