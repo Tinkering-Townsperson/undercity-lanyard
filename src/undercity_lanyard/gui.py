@@ -1,8 +1,10 @@
+from dataclasses import dataclass
 from os import listdir
 from tkinter.messagebox import askokcancel, showinfo
-from . import __version__, cleanup, init, create_badge, flash_badge  # noqa
-from dataclasses import dataclass
+
 from PIL import Image
+
+from . import __version__, cleanup, create_badge, flash_badge, init  # noqa
 
 try:
 	import customtkinter as ctk
