@@ -1,4 +1,4 @@
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 import os
 import shutil
 from typing import Optional
@@ -47,12 +47,22 @@ def init():
 	print("Welcome to undercity hopefully fixed lanyard upload script (x2)")
 
 
-def create_badge(name: str, slack_handle: str, extra: Optional[str] = None, img: Optional[os.PathLike] = None):  # noqa
-	if img:
+def create_badge(name: str, slack_handle: str, extra: Optional[str] = None, img_path: Optional[os.PathLike] = None):  # noqa
+	img: Optional[Image.Image] = None
+	handle_offset: int = 0
+
+	if img_path:
 		try:
-			img = Image.open("img.png")
-			img = img.resize((60, 60), Image.LANCZOS)
+			img = Image.open(img_path)
+			img = img.convert("RGBA")  # Ensure alpha channel
+			# Composite over white background to replace transparency with white
+			white_bg = Image.new("RGBA", img.size, (255, 255, 255, 255))
+			img = Image.alpha_composite(white_bg, img)
+			# Resize while maintaining aspect ratio, max size 60x60
+			max_size = (32, 32)
+			img.thumbnail(max_size, Image.LANCZOS)
 			img.save("img_resized.png")
+			handle_offset = 32
 		except Exception as e:
 			print(f"Error processing image: {e}")
 			exit(1)
@@ -86,7 +96,7 @@ def create_badge(name: str, slack_handle: str, extra: Optional[str] = None, img:
 
 		draw.text((20, 10), name, font=main_font, fill="black")
 
-		draw.text((20, 40), f"@{slack_handle}", font=main_font, fill="black")
+		draw.text((12 + handle_offset, 40), f"@{slack_handle}", font=main_font, fill="black")
 
 		draw.text((extra_text_x, 20), extra, font=bank_font, fill="black")
 
@@ -99,7 +109,7 @@ def create_badge(name: str, slack_handle: str, extra: Optional[str] = None, img:
 	if img:
 		try:
 			img = Image.open("img_resized.png")
-			badge.paste(img, (20, 60))
+			badge.paste(img, (8, 36))
 			badge.save("newbadge.bmp")
 			print("Badge with image created successfully!")
 		except Exception as e:

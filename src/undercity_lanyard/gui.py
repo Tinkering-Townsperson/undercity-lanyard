@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from os import listdir
+from os.path import exists, basename
+from shutil import copy
 from tkinter.messagebox import askokcancel, showinfo
 
 from PIL import Image
@@ -22,6 +24,9 @@ class AppConfig():
 class App(ctk.CTk):
 	def __init__(self):
 		super().__init__()
+
+		self.image_path = None
+
 		self.title(f"Undercity Lanyard Flasher v{__version__}")
 		self.geometry("600x500")
 		self.grid_setup()
@@ -75,13 +80,15 @@ class App(ctk.CTk):
 		self.extra_entry = ctk.CTkEntry(self, font=AppConfig.LABEL_FONT)
 		self.extra_entry.grid(row=2, column=3, padx=10, pady=10)
 
+		self.image_label = ctk.CTkLabel(self, text="Image:", justify="left", anchor="w", font=AppConfig.LABEL_FONT)
+		self.image_label.grid(row=2, column=0, padx=10, pady=10)
 		self.image_select = ctk.CTkButton(
 			self,
 			text="Select File...",
 			font=AppConfig.BUTTON_FONT,
 			command=self.select_image_file
 		)
-		self.image_select.grid(row=3, column=2, columnspan=2, padx=10, pady=10)
+		self.image_select.grid(row=2, column=1, padx=10, pady=10)
 
 		self.create_button = ctk.CTkButton(
 			self,
@@ -100,14 +107,25 @@ class App(ctk.CTk):
 		self.flash_button.grid(row=4, column=2, columnspan=2, padx=10, pady=20)
 
 	def select_image_file(self):
-		image_path = ctk.filedialog.askopenfilename(title="Select an Image", filetypes=[("PNG Image Files", "*.png")])
-		if image_path:
-			print(f"Selected image: {image_path}")
+		self.image_path = ctk.filedialog.askopenfilename(title="Select an Image", filetypes=[("PNG Image Files", "*.png")])
+		if self.image_path:
+			print(f"Selected image: {self.image_path}")
 		else:
 			print("No image selected.")
 
-	def selection_mode(self):
-		pass
+		self.verify_image()
+		self.image_select.configure(text=f"{basename(self.image_path) if self.image_path else 'Select File...'}")
+
+	def verify_image(self):
+		if not self.image_path:
+			print("No image provided.")
+			return
+
+		if exists(self.image_path):
+			copy(self.image_path, "img.png")
+		else:
+			print("Image file does not exist.")
+			self.image_path = None
 
 	def invoke_creation(self):
 		cleanup()
@@ -115,8 +133,9 @@ class App(ctk.CTk):
 		name = self.name_entry.get().strip()
 		slack_handle = self.slack_entry.get().strip()
 		extra = self.extra_entry.get().strip()
+		self.verify_image()
 
-		create_badge(name, slack_handle, extra)
+		create_badge(name, slack_handle, extra, self.image_path)
 
 		try:
 			self.preview_image = ctk.CTkImage(
