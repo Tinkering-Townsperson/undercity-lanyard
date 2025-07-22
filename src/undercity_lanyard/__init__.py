@@ -1,10 +1,13 @@
 __version__ = "1.2.0"
+
 import os
 import shutil
-from typing import Optional
-from PIL import Image, ImageFont, ImageDraw
-from .bmp_to_array import image_to_c_array
 import subprocess
+from typing import Optional
+
+from PIL import Image, ImageDraw, ImageFont
+
+from .bmp_to_array import image_to_c_array
 
 
 def cleanup():  # noqa
