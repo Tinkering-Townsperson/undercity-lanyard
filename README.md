@@ -1,5 +1,11 @@
 # Undercity eink lanyard WITH GUI
 
+[![Hackatime Badge](https://hackatime-badge.hackclub.com/U081MDA4T24/undercity-lanyard?style=for-the-badge)](https://hackatime.hackclub.com)
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json&style=for-the-badge)](https://python-poetry.org/)
+![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2FTinkering-Townsperson%2Fundercity-lanyard%2Frefs%2Fheads%2Fmain%2Fpyproject.toml&style=for-the-badge)
+[![GitHub Tag](https://img.shields.io/github/v/tag/Tinkering-Townsperson/undercity-lanyard?style=for-the-badge)](https://github.com/Tinkering-Townsperson/undercity-lanyard)
+
+
 Ok before we go ahead, I just want to credit [@vracton](https://github.com/vracton/undercity-lanyard), [@JeffreyWangDev](https://github.com/JeffreyWangDev/undercity-lanyard), [@phthallo](https://github.com/phthallo/undercity-lanyard), and especially [@espcaa](https://github.com/espcaa/undercity-lanyard) for creating most of the codebase. I only restructured some things and gave it a somewhat-janky-but-usable GUI.
 
 ## Setup
