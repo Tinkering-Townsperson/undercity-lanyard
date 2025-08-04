@@ -1,12 +1,13 @@
 from dataclasses import dataclass
 from os import listdir
-from os.path import exists, basename
+from os.path import basename, exists
+from pathlib import Path
 from shutil import copy
 from tkinter.messagebox import askokcancel, showinfo
 
 from PIL import Image
 
-from . import __version__, cleanup, create_badge, flash_badge, init  # noqa
+from undercity_lanyard import __version__, cleanup, create_badge, flash_badge, init, get_resource
 
 try:
 	import customtkinter as ctk
@@ -21,6 +22,22 @@ class AppConfig():
 	BUTTON_FONT: tuple = ("Consolas", 16)
 
 
+class ImagePropertiesPopup(ctk.CTkToplevel):
+	def __init__(self, master, image_path: str):
+		super().__init__(master)
+		self.title("Image Properties")
+		self.geometry("300x200")
+
+		self.image = Image.open(image_path)
+		self.image_info = f"Size: {self.image.size[0]}x{self.image.size[1]} pixels\nMode: {self.image.mode}"
+
+		self.label = ctk.CTkLabel(self, text=self.image_info, font=AppConfig.LABEL_FONT)
+		self.label.pack(pady=20)
+
+		self.close_button = ctk.CTkButton(self, text="Close", command=self.destroy)
+		self.close_button.pack(pady=10)
+
+
 class App(ctk.CTk):
 	def __init__(self):
 		super().__init__()
@@ -28,10 +45,14 @@ class App(ctk.CTk):
 		self.image_path = None
 
 		self.title(f"Undercity Lanyard Flasher v{__version__}")
+		self.iconbitmap(get_resource(Path("./assets/icon.ico")))
+
 		self.geometry("600x500")
 		self.grid_setup()
 
 		self.setup_widgets()
+
+		# self.image_properties = ImagePropertiesPopup(self, "badge.bmp")
 
 	def grid_setup(self):
 		self.columnconfigure(0, weight=1)

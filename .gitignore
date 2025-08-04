@@ -35,6 +35,7 @@ old_**
 
 # Folders created when running pip install . or poetry install
 build/
+pyinstaller_build/
 
 # Omit poetry.lock as it is not required.
 # Read https://python-poetry.org/docs/libraries/#lock-file for more information.

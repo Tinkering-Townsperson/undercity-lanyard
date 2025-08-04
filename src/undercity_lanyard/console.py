@@ -1,4 +1,4 @@
-from . import __version__, cleanup, init, create_badge, flash_badge  # noqa
+from undercity_lanyard import __version__, cleanup, init, create_badge, flash_badge  # noqa
 import requests
 import os
 import shutil

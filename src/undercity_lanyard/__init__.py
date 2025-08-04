@@ -1,13 +1,42 @@
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 import os
+from pathlib import Path
+import sys
 import shutil
 import subprocess
-from typing import Optional
+from typing import Optional, Union
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .bmp_to_array import image_to_c_array
+from undercity_lanyard.bmp_to_array import image_to_c_array
+
+
+StrOrBytesPath = Union[str, bytes, os.PathLike]
+
+
+def get_resource(path: StrOrBytesPath):
+	"""Return the absolute path of the resource specified by the given path.
+
+	Args:
+		path (Path or str): The path of the resource.
+
+	Returns:
+		Path: The absolute path of the resource.
+	"""
+
+	try:
+		if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
+			base_path = Path(sys._MEIPASS)
+		elif getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS2'):
+			base_path = Path(sys.__MEIPASS2)
+		else:
+			raise AttributeError("Attributes sys.__MEIPASS and sys.__MEIPASS2 do not exist.")
+	except AttributeError:
+		base_path = Path(__file__).resolve().parent.parent.parent
+
+	base_path = Path(base_path).resolve()
+	return (base_path / path).resolve()
 
 
 def cleanup():  # noqa

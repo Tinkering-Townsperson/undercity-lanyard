@@ -19,6 +19,7 @@
 #	install-no-root
 #	           Install the project dependencies only
 #	lint       Lint the project
+#	build      Build the project with Pyinstaller
 
 # Environment variables
 VENV_DIR := .venv
@@ -78,6 +79,9 @@ install-root: pyproject.toml $(VENV_DIR)/
 
 install-no-root: pyproject.toml $(VENV_DIR)/
 	poetry sync --no-root
+
+build: pyproject.toml
+	poetry run pyinstaller --onefile --name "undercity-lanyard" ./src/undercity_lanyard/__main__.py --add-data "./assets:assets/" --icon "./assets/icon.ico" --hide-console hide-early --workpath "./pyinstaller_build"
 
 lint:
 # stop the build if there are Python syntax errors or undefined names.
