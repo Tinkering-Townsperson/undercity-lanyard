@@ -14,7 +14,7 @@ dependencies = [
 
 [project.optional-dependencies]
 gui = [
-	"customtkinter (>=5.2.0,<6.0.0)",
+	"customtkinter (>=6.0.0,<7.0.0)",
 ]
 
 [project.scripts]
